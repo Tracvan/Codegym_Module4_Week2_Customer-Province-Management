@@ -6,6 +6,9 @@ import com.codegym.service.ICustomerService;
 
 import com.codegym.service.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,9 +34,10 @@ public class CustomerController {
         return provinceService.findAll();
     }
     @GetMapping()
-    public ModelAndView listCustomer(){
+    public ModelAndView listCustomer(Pageable pageable){
         ModelAndView modelAndView = new ModelAndView("/customer/list");
-        Iterable<Customer> customers = customerService.findAll();
+        Pageable modifiedPageable = PageRequest.of(pageable.getPageNumber(), 5, pageable.getSort());
+        Page<Customer> customers = customerService.findAll(modifiedPageable);
         modelAndView.addObject("customers", customers);
         return modelAndView;
     }

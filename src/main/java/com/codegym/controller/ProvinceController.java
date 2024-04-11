@@ -6,6 +6,9 @@ import com.codegym.model.Province;
 import com.codegym.service.impl.CustomerService;
 import com.codegym.service.impl.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,9 +30,10 @@ public class ProvinceController {
     private CustomerService customerService;
 
     @GetMapping
-    public ModelAndView listProvince() {
+    public ModelAndView listProvince(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("/province/list");
-        Iterable<Province> provinces = provinceService.findAll();
+        Pageable pageable1 = PageRequest.of(pageable.getPageNumber(),3,pageable.getSort());
+        Page<Province> provinces = provinceService.findAll(pageable1);
         modelAndView.addObject("provinces", provinces);
         return modelAndView;
     }
@@ -67,14 +71,20 @@ public class ProvinceController {
     }
     @GetMapping("/view-province/{id}")
     public ModelAndView viewProvince(@PathVariable long id) {
-        Optional<Province> provinceOptional = provinceService.findById(id);
-        if(!provinceOptional.isPresent()){
-            return new ModelAndView("/error_404");
-        }
-        Iterable<Customer> customers = customerService.findAllByProvince(provinceOptional.get());
-        ModelAndView modelAndView = new ModelAndView("/customer/list");
-        modelAndView.addObject("customers", customers);
-        return modelAndView;
-
+//        Optional<Province> provinceOptional = provinceService.findById(id);
+//        if(!provinceOptional.isPresent()){
+//            return new ModelAndView("/error_404");
+//        }
+//        Iterable<Customer> customers = customerService.findAllByProvince(provinceOptional.get());
+//        ModelAndView modelAndView = new ModelAndView("/customer/list");
+//        modelAndView.addObject("customers", customers);
+        return new ModelAndView() ;
+//
+    }
+    @GetMapping("/delete/{id}")
+    public String delete(@ModelAttribute("province") Province province, RedirectAttributes redirect){
+        provinceService.remove(province.getId());
+        redirect.addFlashAttribute("message", "Delete province sucessfully");
+        return "redirect:/provinces";
     }
 }

@@ -27,6 +27,7 @@
         <th>STT</th>
         <th>Name</th>
         <th>Update</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
@@ -34,9 +35,15 @@
         <td th:text="${pStatus.count}"></td>
         <td><a th:href="@{/provinces/view-province/{id}(id=${p.getId()})}" th:text="${p.getName()}"></a></td>
         <td><a th:href="@{/provinces/update/{id}(id=${p.getId()})}">update</a></td>
+        <td><a th:href="@{/provinces/delete/{id}(id=${p.getId()})}">delete</a> </td>
     </tr>
     </tbody>
 </table>
+<a  th:if= "${provinces.hasPrevious()}"
+    th:href="@{/provinces/(page=${provinces.number - 1})}">Previous</a>
+<span th:text="${provinces.number + 1}"></span> | <span th:text="${provinces.totalPages}"></span>
+<a th:if="${provinces.hasNext()}"
+   th:href="@{/provinces/(page=${provinces.number + 1})}">Next</a>
 <footer th:replace="/layout :: footer"></footer>
 </body>
 </html>
