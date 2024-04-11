@@ -23,7 +23,7 @@
         </div>
         <div>
             <label for="province">Province</label>
-            <select id="province" th:field="*{province}">
+            <select id="province" th:field="*{province.id}">
                 <option th:each="p : ${provinces}" th:value="${p.id}" th:text="${p.name}"></option>
             </select>
         </div>

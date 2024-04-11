@@ -37,6 +37,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Iterable<Customer> findAllByProvince(Province province) {
-        return iCustomerRepository.findAllByProvince(province);
+//        return iCustomerRepository.findAllByProvince(province);
+        return null;
     }
 }

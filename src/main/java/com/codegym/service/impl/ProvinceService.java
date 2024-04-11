@@ -25,7 +25,8 @@ public class ProvinceService implements IProvinceService {
 
     @Override
     public Optional<Province> findById(long id) {
-        return Optional.empty();
+        Optional<Province> province= iProvinceRepository.findById(id);
+        return province;
     }
 
     @Override
